@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>AJAX Spotify</title>
+    </head>
+    <body>
+
+        <input id="search" type="text" placeholder="Artist ID"/>
+        <h1 id="name"></h1>
+
+        <!-- Load jQuery library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            // listen for enter pressed after user enters into search box
+            $("#search").keyup(function (e){
+                if (e.keyCode == 13) {
+                    // get the user input
+                    var artistID = $("#search").val();
+                    // make request to the Spotify Artists endpoint with the
+                    // Artist ID
+                    $.ajax({
+                        url : 'https://api.spotify.com/v1/artists/' + artistID,
+                        dataType: 'json',
+
+                        success: function(response) {
+                            $('#name').text(response.name);
+                        },
+
+                        error: function(xhr, status, error) {
+                            $('#name').text("Oops! An error occurred! Check that ID!");
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
